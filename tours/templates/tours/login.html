@@ -1,0 +1,20 @@
+{% extends 'tours/base.html'%}
+{% load static %}
+{% block content %}
+    <div id="login" style="margin-top: -50px;">
+        <form class="box" method="POST" action="{% url 'loginuser' %}">
+            {% csrf_token %}
+            <img src="{% static 'tours/images/back/t-logo.jpg' %}" class="logo">
+            <div>
+                {% for error in messages %}
+                    <strong>{{ error }}</strong>
+                {% endfor %}
+            </div>
+            <input type="text" name="username" placeholder="username">
+            <input type="password" name="password" placeholder="Password">
+            <input type="submit" name="login" value="Login">
+
+            <p>&copy;&nbsp; <?php echo date('Y')?>2020, All Rights Reserved</p>
+        </form>
+    </div>
+{% endblock %}

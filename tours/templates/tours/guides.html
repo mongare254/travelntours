@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+    <style>
+        .guidewrapper{
+            margin:23px;
+            background-color: #f8f9fa;
+            border-radius: 24px;
+            width:100%;
+            padding:40px 34px;
+        }
+        .guidewrapper h3{
+            text-align: center;
+            color: #155724;
+            font-family: "Franklin Gothic Book";
+
+        }
+        .guidewrapper p{
+            font-family: "Lucida Bright";
+            text-align: center;
+        }
+        .title{
+            margin-left: 30%;
+            margin-top:30px;
+            border-radius: 24px;
+            border: 3px solid lightslategrey;
+            background:linear-gradient(to right, whitesmoke, navajowhite);
+            color: black;
+            padding:12px;
+            width:300px;
+            height:auto;
+        }
+        .card{
+            padding: 4px;
+            width:25rem;
+            height:10rem auto;
+            background-color: #ebeef8;
+            align-items: center;
+            justify-content: center;
+            box-shadow: .5rem .5rem 3rem rgba(0,0,0,0.2);
+
+        }
+        .col-md-3{
+            margin-right:2px;
+        }
+        .card .card-img{
+        .card .card-img{
+            width: 100%;
+            height:15rem;
+            object-fit: cover;
+        :webkit-clip-path:polygon[0 0,100% 0,100% 70%,0% 100%];
+            clip-path: polygon(0 0,100% 0,100% 73%, 0% 100%);
+        }
+        }
+        .profile-img{
+            left:50%;
+            width: 15rem;
+            height: 15rem;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-top: -10rem;
+            z-index: 999;
+            border: 1rem solid maroon;
+        }
+        .card span{
+            font-style: italic;
+            margin-top:-2rem;
+        }
+        .job-title{
+            color: seagreen;
+            font-family: "Engravers MT";
+        }
+
+        .title1{
+            margin-bottom: 200px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-1">
+
+            </div>
+            <div class="col-md-10 guidewrapper">
+                <div class="title1">
+                    <h3>MEET OUR TEAM</h3>
+                    <p>Experience is our Priority</p>
+                </div>
+                <div class="row">
+                    {% for guide in guides %}
+                        <div class="col-md-3 mx-auto">
+                        <div class="card">
+                            <div class="card-img"></div>
+                            <img src="{{ guide.profile_image.url }}" class="profile-img">
+                            <h4><i class="fas fa-user"></i>{{ guide.firstname }} {{ ' ' }}{{ guide.secondname }}</h4>
+                            <p class="job-title">{{ guide.role }}</p>
+                            <p class="about"><i class="fas fa-facebook-f"></i>{{ guide.facebook_handle }}</p>
+                        </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-1">
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

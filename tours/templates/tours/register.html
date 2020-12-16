@@ -1,0 +1,45 @@
+{% extends 'tours/base.html'%}
+{% load static %}
+{% block content %}
+    <div id="register" style="margin-top: 125px;">
+        <form class="box" method="POST" action="{% url 'registeruser' %}">
+            {% csrf_token %}
+            <img src="{% static 'tours/images/back/t-logo.jpg' %}" class="logo">
+            <input type="text" name="firstname" placeholder="First name">
+            <input type="text" name="secondname" placeholder="Second name">
+            <div id="usererrors">
+                {% for error in messages %}
+                    <strong>{{ error }}</strong>
+                {% endfor %}
+            </div>
+            <input type="text" name="username" placeholder="username">
+            <input type="text" name="country" placeholder="Country Name">
+            <select type="text" name="gender"  class="form-control">
+                <option value="" selected disabled >SELECT GENDER</option>
+                <option value="MALE"  class="form-control">MALE</option>
+                <option value="FEMALE" class="form-control">FEMALE</option>
+            </select>
+            <input type="password" name="password" id="password" placeholder="Password">
+            <div id="passerrors"></div>
+            <input type="password" name="cpassword" id="cpassword" placeholder="Confirm Password" onmouseout="check()">
+            <input type="submit" name="register" value="REGISTER">
+
+            <button onclick='login(); return false;' class="logbtn">Back to Login</button>
+
+            <p>&copy;&nbsp; <?php echo date('Y')?>All Rights Reserved</p>
+        </form>
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        var check = function() {
+            if (document.getElementById('password').value ==
+                document.getElementById('cpassword').value) {
+
+            } else {
+                document.getElementById('passerrors').style.color = 'red';
+                document.getElementById('passerrors').innerHTML = 'The passwords do not match!!';
+            }
+        }
+    </script>
+{% endblock %}

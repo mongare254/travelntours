@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <meta http-equiv="refresh" content="45"/>
+{% endblock %}
+{% block css %}
+    <style>
+        .chatwrapper {
+            background-color: white;
+            margin: -10px;
+            padding: 5px;
+            border-radius: 8px;
+        }
+    .jumbotron{
+        margin-top: 12px;
+    }
+    .box{
+	width: 400px;
+	padding:5px;
+	position:relative;
+	background:lavenderblush;
+	text-align: center;
+	border-radius: 34px;
+}
+    .box .mesbtn{
+	border:0;
+	background: none;
+	display: block;
+	margin: 20px auto;
+	text-align: center;
+	border:2px solid #2ecc71;
+	padding: 14px 40px;
+	width:330px;
+	outline: none;
+	color:black;
+	border-radius: 24px;
+	transition:0.5s;
+	cursor: pointer;
+}
+.box .mesbtn:hover{
+	background: #2ecc71;
+	width:450px;
+}
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="jumbotron">
+                    <h3 class="align-self-center" style="margin-top: -20px;">PUBLIC CHATS</h3>
+                    <div class="chatwrapper">
+                        {% if chats %}
+                            <table class="table table-borderless">
+                                <tbody>
+                                {% for chat in chats %}
+                                    <tr>
+                                        <td style="font-family: Bahnschrift; font-weight: bold; ">{{ chat.user.username }}</td>
+                                        <td>
+                                            <span style="">{{ chat.time_sent }}</span><br>
+                                            <span style="font-style: italic; font-family: 'Lucida Bright'">{{ chat.text }}</span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        {% else %}
+                            <p style="color: #1e7e34">No chats available</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h3 class="align-self-center">YOUR MESSAGES</h3>
+                <div class="box">
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.message_read == False %}
+                                <div class="mesbtn" style="background: #1e7e34">
+                                   <div class="row">
+                                       <input  value="{{ message.id }}" type="hidden" class="id">
+                                       <div class="col-md-4">{{ message.sender }}</div>
+                                       <div class="col-md-8">{{ message.date_sent }}</div>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col-md-3"></div>
+                                       <div class="col-md-9">{{ message.subject }}</div>
+                                   </div>
+                                </div>
+                                {% else %}
+                                    <div class="mesbtn">
+                                   <div class="row">
+                                       <input  value="{{ message.id }}" type="hidden" class="id">
+                                       <div class="col-md-4">{{ message.sender }}</div>
+                                       <div class="col-md-8">{{ message.date_sent }}</div>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col-md-3"></div>
+                                       <div class="col-md-9">{{ message.subject }}</div>
+                                   </div>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <p>No messages available</p>
+                        {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div id="read">
+
+                </div>
+            </div>
+        </div>
+    </div><br><br><br>
+{% endblock %}
+{% block js %}
+    <script>
+
+     $(document).ready(
+            function() {
+                //when the user clicks on the submit button, we load the url and pass the town value
+                //the user entered in the input
+                var id= $('.id').text();
+                $(".mesbtn").click(
+                    function() {
+                            alert(id);
+                        });
+
+                    }
+                );
+            }
+        );
+    </script>
+{% endblock %}

@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div>
+        <br>
+        <div class=" container-fluid ">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 style="color: seagreen;">Click here to Search Per City:</h3>
+                    <form class="form-inline" action="#" method="POST">
+                        {% csrf_token %}
+                        <span class="btn-label btn-label-right"><i class="fa fa-search fa-3x"></i></span>
+                        <select id="city" class="form-control" style="width: 300px;">
+                            {% for c in city %}
+                                <option>{{ c }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" name="hotelsearch" id="hotel_search" class="btn btn-primary mx-3">Submit</button>
+                    </form><br>
+                </div>
+                <div class="col-md-6">
+                    <h3 style="margin-left: 20%; color:seagreen;">Click here to Search Per Hotel:</h3>
+                    <form class="form-inline" action="#" method="POST">
+                        {% csrf_token %}
+                        <span class="btn-label btn-label-right"><i class="fa fa-search fa-3x"></i></span>
+                        <select id="hotel_name" class="form-control" style="width: 300px;">
+                            {% for h in hotelnames %}
+                                <option>{{ h }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit"  id="hotel_name_search" class="btn btn-primary mx-3">Submit</button>
+                    </form><br>
+                </div>
+            </div>
+            <div class="row" id="showhotel">
+
+            </div>
+            <div class="row" id="showtown">
+
+            </div>
+            <div class="col-md-auto">
+                <h3 style="text-align: center">Featured Hotels:</h3>
+            </div>
+            <div class="row">
+                {% for resort in resorts %}
+                    <div class="col-md-3 mx-auto">
+                        <div class="card" style="width:350px">
+                            <img class="card-img-top" src="{{ resort.hotel_image.url }}" alt="Card image">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ resort.hotel_name }}</h4>
+                                <p class="card-text">Price Per night  {{ resort.price }}</p>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a href="#" class="btn btn-primary">Book</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="#" class="btn btn-info">Interested</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        <br>
+            <div class="row">
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-8">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="text-center" colspan="7">
+                                ALL AVAILABLE HOTELS
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Hotel Name</th>
+                            <th>Location:</th>
+                            <th>Town:</th>
+                            <th>Price Per Night:</th>
+                            <th>Website:</th>
+                            <th>Interested</th>
+                            <th>Book</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for hotel in resorts %}
+                            <tr>
+                                <td>{{ hotel.hotel_name }}</td>
+                                <td>{{ hotel.location }}</td>
+                                <td>{{ hotel.town }}</td>
+                                <td>{{ hotel.price }}</td>
+                                <td><a href="{{ hotel.website }}">{{ hotel.website }}</a></td>
+                                <td><button class="btn btn-warning btn-group-lg">Interested</button></td>
+                                <td><button class="btn btn-success btn-group-lg">Book</button></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-2">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block js %}
+    <script>
+        var city = document.getElementById('city');
+        var hotel=document.getElementById('hotel_name');
+        $(document).ready(
+            function() {
+                //when the user clicks on the submit button, we load the url and pass the town value
+                //the user entered in the input
+
+                $("#hotel_search").click(
+                    function() {
+                        $('#showhotel').hide();
+                        $("#showtown").load("{% url 'hotelsearch' %}", {
+                            city: city.value
+                        });
+                        return false;
+                    }
+                );
+                $("#hotel_name_search").click(
+                    function() {
+                        $('#showtown').hide();
+                        $("#showhotel").load("{% url 'hotelnamesearch' %}", {
+                            hotel:hotel.value
+                        });
+                        return false;
+                    }
+                );
+            }
+        );
+    </script>
+
+{% endblock %}
